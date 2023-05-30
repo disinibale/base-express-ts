@@ -1,11 +1,21 @@
 import moment from 'moment'
+import LogFormatter from '../helpers/LogFormatter.helper'
 
 import BaseMiddleware from "./Base.middleware"
+import { Request, Response, NextFunction } from 'express'
 
 class LogActivityMiddleware extends BaseMiddleware {
-    handleRequestActivity(): void {
+    private helper: typeof LogFormatter
+
+    constructor(req: Request, res: Response, next: NextFunction) {
+        super(req, res, next)
+        this.helper = LogFormatter
+    }
+
+    async handleRequestActivity(): Promise<void> {
+        const { method, originalUrl, ip } = this.req
         const timestamp = moment().format('DD-MM-YYYY HH:mm:ss')
-        console.log(`[${this.req?.method} : ${timestamp}] at : ${this.req?.url}`)
+        console.log(`[${method} : ${timestamp}] at : ${originalUrl} - ${ip}`)
         this.next?.()
     }
 }

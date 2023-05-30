@@ -1,9 +1,9 @@
 import { Request, Response, NextFunction } from 'express';
 
 class BaseMiddleware {
-    protected req?: Request;
-    protected res?: Response;
-    protected next?: NextFunction;
+    protected req: Request;
+    protected res: Response;
+    protected next: NextFunction;
 
     constructor(req: Request, res: Response, next: NextFunction) {
         this.req = req;
